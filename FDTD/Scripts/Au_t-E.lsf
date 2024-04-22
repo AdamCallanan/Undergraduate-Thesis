@@ -1,0 +1,19 @@
+lam = 0.662e-6;
+
+switchtolayout;
+select("source");
+shiftselect("source_1");
+set("wavelength start", lam);
+set("wavelength stop", lam);
+
+run;
+
+E = sqrt(getelectric("monitor"));
+filename = "Data/Au_t-E-opt.txt";
+row_size = size(E,1);
+
+for (j=1;j<=row_size;j=j+1){
+    row_out = E(j,:);
+    write(filename, num2str(row_out));
+}
+print("done");    

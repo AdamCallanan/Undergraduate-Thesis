@@ -1,0 +1,43 @@
+lam = 0.661e-6;
+n = 0;
+cycles = (0.79-0.1725)/0.01;
+
+switchtolayout;
+select("source");
+shiftselect("source_1");
+set("wavelength start", lam);
+set("wavelength stop", lam);
+
+for (i=1;i<=cycles;i=i+1){
+    run;
+    
+    for (m=4;m>=0;m=m-1){
+        monitor = "monitor_" + num2str(m);
+        E = sqrt(getelectric(monitor));
+        filename = "Data/s-E-opt/" + num2str(n) + ".txt";
+        row_size = size(E,1);
+        
+        for (j=1;j<=row_size;j=j+1){
+            row_out = E(j,:);
+            write(filename, num2str(row_out));
+        }
+        print("Layer " + num2str(n) + " complete");
+        n = n + 1;
+    }
+    switchtolayout; 
+    select("mesh");
+    shiftselect("monitor_0");
+    shiftselect("monitor_1");   
+    shiftselect("monitor_2");
+    shiftselect("monitor_3");
+    shiftselect("monitor_4");
+    move(0,0,-0.01e-6);
+}
+print("done");
+  
+
+    
+    
+    
+    
+    

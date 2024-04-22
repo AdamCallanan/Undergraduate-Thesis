@@ -1,0 +1,20 @@
+for(lam=0.5e-6;lam<=0.7e-6;lam=lam+0.001e-6){
+    switchtolayout;
+    select("source");
+    shiftselect("source_1");
+    set("wavelength start", lam);
+    set("wavelength stop", lam);
+    run;
+
+     for (m=4;m>=0;m=m-1){
+        monitor = "monitor_"+num2str(m);
+        T = real(-(transmission(monitor)));
+        
+        outdata = [ lam*1e9, pinch(T)];
+        format long;
+        filename = "Data/Au_s-ES_final/" + num2str(m) + ".txt";
+        write(filename, num2str(outdata));
+    }
+    print("Wavelength " + num2str(lam*1e9) + " nm complete");
+}
+print("done");
